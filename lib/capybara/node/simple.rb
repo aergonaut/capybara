@@ -173,6 +173,11 @@ module Capybara
       def find_xpath(xpath)
         native.xpath(xpath)
       end
+
+      # @api private
+      def session_options
+        Capybara.send(:default_session_options)
+      end
     end
   end
 end

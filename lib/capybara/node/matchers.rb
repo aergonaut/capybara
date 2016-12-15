@@ -680,6 +680,11 @@ module Capybara
     private
 
       def _verify_selector_result(query_args, optional_filter_block, &result_block)
+        if query_args.last.is_a? Hash
+          query_args.last[:session_options] = session_options
+        else
+          query_args.push(session_options: session_options)
+        end
         query = Capybara::Queries::SelectorQuery.new(*query_args, &optional_filter_block)
         synchronize(query.wait) do
           result = query.resolve_for(self)
@@ -689,6 +694,11 @@ module Capybara
       end
 
       def _verify_match_result(query_args, optional_filter_block, &result_block)
+        if query_args.last.is_a? Hash
+          query_args.last[:session_options] = session_options
+        else
+          query_args.push(session_options: session_options)
+        end
         query = Capybara::Queries::MatchQuery.new(*query_args, &optional_filter_block)
         synchronize(query.wait) do
           result = query.resolve_for(self.query_scope)
