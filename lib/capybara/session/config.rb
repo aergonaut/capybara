@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 module Capybara
   class SessionConfig
-    attr_reader :default_host, :app_host, :save_and_open_page_path
-    attr_accessor :always_include_port, :run_server, :default_selector, :default_max_wait_time, :ignore_hidden_elements,
-                  :automatic_reload, :match, :exact, :exact_text, :raise_server_errors, :visible_text_only, :wait_on_first_by_default,
-                  :automatic_label_click, :enable_aria_label,
-                  :save_path, :exact_options, :asset_host
+    OPTIONS = [:always_include_port, :run_server, :default_selector, :default_max_wait_time, :ignore_hidden_elements,
+               :automatic_reload, :match, :exact, :exact_text, :raise_server_errors, :visible_text_only, :wait_on_first_by_default,
+               :automatic_label_click, :enable_aria_label, :save_path, :exact_options, :asset_host, :default_host, :app_host,
+               :save_and_open_page_path, :server_host, :server_port]
+
+    attr_accessor *OPTIONS
+
+    ##
+    #
+    # @return [String]    The IP address bound by default server
+    #
+    def server_host
+      @server_host || '127.0.0.1'
+    end
 
     def app_host=(url)
       raise ArgumentError.new("Capybara.app_host should be set to a url (http://www.example.com)") unless url.nil? || (url =~ URI::Parser.new.make_regexp)

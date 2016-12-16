@@ -25,18 +25,13 @@ module Capybara
   class << self
     extend Forwardable
 
-    attr_accessor :server_port
-    attr_writer :default_driver, :current_driver, :javascript_driver, :session_name, :server_host
-    attr_accessor :app, :server_errors
+    attr_accessor :app, :server_errors, :per_session_configuration
+    attr_writer :default_driver, :current_driver, :javascript_driver, :session_name
     attr_reader :reuse_server
-    attr_accessor :per_session_configuration
 
-    [:always_include_port, :run_server, :default_selector, :default_max_wait_time, :ignore_hidden_elements,
-     :automatic_reload, :match, :exact, :exact_text, :raise_server_errors, :visible_text_only, :wait_on_first_by_default,
-     :automatic_label_click, :enable_aria_label, :default_host, :app_host, :save_path, :exact_options, :asset_host, :save_and_open_page_path
-    ].each do |method|
-       def_delegators :default_session_options, method, "#{method}=".to_sym
-     end
+    SessionConfig::OPTIONS.each do |method|
+      def_delegators :default_session_options, method, "#{method}="
+    end
 
     ##
     #
@@ -300,14 +295,6 @@ module Capybara
       yield
     ensure
       @current_driver = previous_driver
-    end
-
-    ##
-    #
-    # @return [String]    The IP address bound by default server
-    #
-    def server_host
-      @server_host || '127.0.0.1'
     end
 
     ##

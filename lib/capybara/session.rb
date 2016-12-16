@@ -71,16 +71,16 @@ module Capybara
       raise TypeError, "The second parameter to Session::new should be a rack app if passed." if app && !app.respond_to?(:call)
       @mode = mode
       @app = app
-      if config.run_server and @app and driver.needs_server?
-        @server = Capybara::Server.new(@app).boot
-      else
-        @server = nil
-      end
-      @touched = false
       if block_given?
         raise "A configuration block is only accepted when Capybara.per_session_configuration == true" unless Capybara.per_session_configuration
         yield config if block_given?
       end
+      if config.run_server and @app and driver.needs_server?
+        @server = Capybara::Server.new(@app, config.server_port, config.server_host).boot
+      else
+        @server = nil
+      end
+      @touched = false
     end
 
     def driver
