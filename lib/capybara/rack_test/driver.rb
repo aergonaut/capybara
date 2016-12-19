@@ -31,10 +31,6 @@ class Capybara::RackTest::Driver < Capybara::Driver::Base
     @options[:redirect_limit]
   end
 
-  def config
-    @options[:config]
-  end
-
   def response
     browser.last_response
   end

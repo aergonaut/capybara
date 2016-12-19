@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'capybara/dsl'
 
 RSpec.describe Capybara::SessionConfig do
-  describe "per session config", twtw: true do
+  describe "per session config" do
     it "defaults to global session options" do
       Capybara.per_session_configuration = true
       session = Capybara::Session.new(:rack_test, TestApp)
@@ -22,10 +22,12 @@ RSpec.describe Capybara::SessionConfig do
       session = Capybara::Session.new(:rack_test, TestApp) do |config|
         config.default_host = host
         config.automatic_label_click = !config.automatic_label_click
+        config.server_errors << ArgumentError
       end
       expect(Capybara.default_host).not_to eq host
       expect(session.config.default_host).to eq host
       expect(Capybara.automatic_label_click).not_to eq session.config.automatic_label_click
+      expect(Capybara.server_errors).not_to eq session.config.server_errors
     end
 
     it "doesn't allow session configuration block when false" do
@@ -38,7 +40,7 @@ RSpec.describe Capybara::SessionConfig do
     it "doesn't allow session config when false" do
       Capybara.per_session_configuration = false
       session = Capybara::Session.new(:rack_test, TestApp)
-      expect { session.config.default_selector = :title }.to raise_error /can't modify frozen/
+      expect { session.config.default_selector = :title }.to raise_error /Per session settings are only supported when Capybara.per_session_configuration == true/
       expect do
         session.configure do |config|
           config.exact = true

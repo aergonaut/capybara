@@ -76,7 +76,7 @@ module Capybara
         yield config if block_given?
       end
       if config.run_server and @app and driver.needs_server?
-        @server = Capybara::Server.new(@app, config.server_port, config.server_host).boot
+        @server = Capybara::Server.new(@app, config.server_port, config.server_host, config.server_errors).boot
       else
         @server = nil
       end
@@ -822,10 +822,10 @@ module Capybara
     end
 
     def config
-      if Capybara.per_session_configuration
-        @config ||= Capybara.send(:default_session_options).dup
+      @config ||= if Capybara.per_session_configuration
+        Capybara.send(:default_session_options).dup
       else
-        Capybara.send(:default_session_options).dup.freeze
+        Capybara::ReadOnlySessionConfig.new(Capybara.send(:default_session_options))
       end
     end
 

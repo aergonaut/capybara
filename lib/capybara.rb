@@ -25,7 +25,7 @@ module Capybara
   class << self
     extend Forwardable
 
-    attr_accessor :app, :server_errors, :per_session_configuration
+    attr_accessor :app, :per_session_configuration
     attr_writer :default_driver, :current_driver, :javascript_driver, :session_name
     attr_reader :reuse_server
 

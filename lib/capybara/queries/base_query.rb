@@ -16,7 +16,7 @@ module Capybara
         self.class.wait(options, session_options.default_max_wait_time)
       end
 
-      def self.wait(options, default)
+      def self.wait(options, default=Capybara.default_max_wait_time)
         options.fetch(:wait, default) || 0
       end
 
