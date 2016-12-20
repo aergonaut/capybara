@@ -26,9 +26,20 @@ module Capybara
     extend Forwardable
 
     attr_accessor :app, :per_session_configuration
-    attr_writer :default_driver, :current_driver, :javascript_driver, :session_name
     attr_reader :reuse_server
+    attr_writer :default_driver, :current_driver, :javascript_driver, :session_name
 
+    # Delegate Capybara global configurations
+    # @!method default_selector
+    #   See {Capybara#configure}
+    # @!method default_max_wait_time
+    #   See {Capybara#configure}
+    # @!method app_host
+    #   See {Capybara#configure}
+    # @!method always_include_port
+    #   See {Capybara#configure}
+    # @!method wait_on_first_by_default
+    #   See {Capybara#configure}
     SessionConfig::OPTIONS.each do |method|
       def_delegators :default_session_options, method, "#{method}="
     end
@@ -59,6 +70,7 @@ module Capybara
     # [automatic_label_click = Boolean]   Whether Node#choose, Node#check, Node#uncheck will attempt to click the associated label element if the checkbox/radio button are non-visible (Default: false)
     # [enable_aria_label = Boolean]  Whether fields, links, and buttons will match against aria-label attribute (Default: false)
     # [reuse_server = Boolean]  Reuse the server thread between multiple sessions using the same app object (Default: true)
+    # [per_session_configuration = Boolean]  Whether sessions can be configured individually (Default: false)
     # === DSL Options
     #
     # when using capybara/dsl, the following options are also available:

@@ -17,6 +17,14 @@ module Capybara
   #     session = Capybara::Session.new(:culerity)
   #     session.visit('http://www.google.com')
   #
+  # When Capybara.per_session_configuration == true the sessions options will be initially set to the
+  # current values of the global options and a configuration block can be passed to the session initializer.
+  # For available options see {Capybara::SessionConfig::OPTIONS}
+  #
+  #     session = Capybara::Session.new(:driver, MyRackApp) do |config|
+  #       config.app_host = "http://my_host.dev"
+  #     end
+  #
   # Session provides a number of methods for controlling the navigation of the page, such as +visit+,
   # +current_path, and so on. It also delegate a number of methods to a Capybara::Document, representing
   # the current HTML document. This allows interaction:
@@ -816,6 +824,11 @@ module Capybara
       end
     end
 
+    ##
+    #
+    #  Accepts a block to set the configuration options if Capybara.per_session_configuration == true. Note that some options only have an effect
+    #  if set at initialization time, so look at the configuration block that can be passed to the initializer too
+    #
     def configure
       raise "Session configuration is only supported when Capybara.per_session_configuration == true" unless Capybara.per_session_configuration
       yield config

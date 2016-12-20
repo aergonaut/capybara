@@ -11,6 +11,52 @@ module Capybara
     attr_accessor *OPTIONS
 
     ##
+    #@!method always_include_port
+    #  See {Capybara#configure}
+    #@!method run_server
+    #  See {Capybara#configure}
+    #@!method default_selector
+    #  See {Capybara#configure}
+    #@!method default_max_wait_time
+    #  See {Capybara#configure}
+    #@!method ignore_hidden_elements
+    #  See {Capybara#configure}
+    #@!method automatic_reload
+    #  See {Capybara#configure}
+    #@!method match
+    #  See {Capybara#configure}
+    #@!method exact
+    #  See {Capybara#configure}
+    #@!method raise_server_errors
+    #  See {Capybara#configure}
+    #@!method visible_text_only
+    #  See {Capybara#configure}
+    #@!method wait_on_first_by_default
+    #  See {Capybara#configure}
+    #@!method automatic_label_click
+    #  See {Capybara#configure}
+    #@!method enable_aria_label
+    #  See {Capybara#configure}
+    #@!method save_path
+    #  See {Capybara#configure}
+    #@!method exact_options
+    #  See {Capybara#configure}
+    #@!method asset_host
+    #  See {Capybara#configure}
+    #@!method default_host
+    #  See {Capybara#configure}
+    #@!method app_host
+    #  See {Capybara#configure}
+    #@!method save_and_open_page_path
+    #  See {Capybara#configure}
+    #@!method server_host
+    #  See {Capybara#configure}
+    #@!method server_port
+    #  See {Capybara#configure}
+    #@!method server_errors
+    #  See {Capybara#configure}
+
+    ##
     #
     # @return [String]    The IP address bound by default server
     #
