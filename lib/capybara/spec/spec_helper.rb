@@ -39,6 +39,7 @@ module Capybara
         Capybara.match = :smart
         Capybara.wait_on_first_by_default = false
         Capybara.enable_aria_label = false
+        Capybara::Session.class_variable_set(:@@instance_created, false) # Work around limit on when per_session_configuration can be changed
         Capybara.per_session_configuration = false
       end
 

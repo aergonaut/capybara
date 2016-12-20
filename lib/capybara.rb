@@ -25,8 +25,8 @@ module Capybara
   class << self
     extend Forwardable
 
-    attr_accessor :app, :per_session_configuration
-    attr_reader :reuse_server
+    attr_accessor :app
+    attr_reader :reuse_server, :per_session_configuration
     attr_writer :default_driver, :current_driver, :javascript_driver, :session_name
 
     # Delegate Capybara global configurations
@@ -399,6 +399,11 @@ module Capybara
     def reuse_server=(bool)
       warn "Capybara.reuse_server == false is a BETA feature and may change in a future version" unless bool
       @reuse_server = bool
+    end
+
+    def per_session_configuration=(bool)
+      raise "Per Session Configuration setting cannot be changed once a session is created" if (bool != @per_session_configuration) && Session.instance_created?
+      @per_session_configuration = bool
     end
 
     def deprecate(method, alternate_method, once=false)

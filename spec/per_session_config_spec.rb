@@ -56,5 +56,12 @@ RSpec.describe Capybara::SessionConfig do
       session.visit('/with_html')
       expect(session.find('foo').tag_name).to eq 'a'
     end
+
+    it "won't change per session config once a session is created" do
+      Capybara.per_session_configuration = true
+      Capybara.per_session_configuration = false
+      session = Capybara::Session.new(:rack_test, TestApp)
+      expect { Capybara.per_session_configuration = true }.to raise_error /Per Session Configuration setting cannot be changed once a session is created/
+    end
   end
 end

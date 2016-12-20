@@ -77,6 +77,7 @@ module Capybara
 
     def initialize(mode, app=nil)
       raise TypeError, "The second parameter to Session::new should be a rack app if passed." if app && !app.respond_to?(:call)
+      @@instance_created = true
       @mode = mode
       @app = app
       if block_given?
@@ -842,7 +843,13 @@ module Capybara
       end
     end
 
+    def self.instance_created?
+      @@instance_created
+    end
+
   private
+
+    @@instance_created = false
 
     def accept_modal(type, text_or_options, options, &blk)
       driver.accept_modal(type, modal_options(text_or_options, options), &blk)
